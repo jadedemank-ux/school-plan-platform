@@ -2,156 +2,241 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>خطتنا تُقاس بأثرها</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Tahoma, Arial, sans-serif;
-      background: #f4f6f2;
-      color: #174b3b;
-    }
-    header {
-      background: #174b3b;
-      color: white;
-      padding: 36px 18px;
-      text-align: center;
-      border-bottom: 6px solid #c5a361;
-    }
-    main {
-      max-width: 850px;
-      margin: 25px auto;
-      padding: 16px;
-    }
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 12px #00000010;
-    }
-    input, button {
-      padding: 12px;
-      margin: 6px;
-      border-radius: 8px;
-      font: inherit;
-    }
-    button {
-      background: #174b3b;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    .hidden { display: none; }
-    .program {
-      padding: 14px;
-      border-bottom: 1px solid #ddd;
-    }
-    #message { color: #a43d31; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>خطتنا تُقاس بأثرها | الابتدائية الثالثة</title>
+<style>
+:root {
+  --green:#174c3d;
+  --gold:#c5a45b;
+  --bg:#f5f6f2;
+  --ink:#243a32;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Tahoma,Arial,sans-serif;
+}
+header {
+  background:var(--green);
+  color:white;
+  text-align:center;
+  padding:30px 16px 38px;
+  border-bottom:6px solid var(--gold);
+}
+header h1 { font-size:32px; margin:18px 0; }
+header h2 { font-size:21px; margin:8px 0; }
+header p { line-height:1.9; }
+main { max-width:1100px; margin:auto; padding:24px 16px; }
+.panel {
+  background:white;
+  padding:22px;
+  border-radius:16px;
+  margin-bottom:20px;
+  box-shadow:0 4px 15px #0000000d;
+}
+.stats {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+  margin-bottom:20px;
+}
+.stat {
+  background:white;
+  border-top:4px solid var(--gold);
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+}
+.stat strong {
+  display:block;
+  font-size:30px;
+  color:var(--green);
+  margin:10px;
+}
+.controls {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+input,select {
+  padding:13px;
+  border:1px solid #d7dcd6;
+  border-radius:9px;
+  font:inherit;
+  flex:1;
+  min-width:180px;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:16px;
+}
+.program {
+  background:white;
+  border-radius:14px;
+  padding:20px;
+  border-right:5px solid var(--gold);
+  box-shadow:0 3px 12px #0000000a;
+}
+.program h3 { color:var(--green); margin-top:0; }
+.tag {
+  display:inline-block;
+  background:#e9f0ec;
+  color:var(--green);
+  border-radius:20px;
+  padding:6px 12px;
+  font-size:12px;
+}
+.track {
+  height:10px;
+  background:#e6ebe6;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:15px;
+}
+.fill { height:100%; background:var(--gold); }
+.small { color:#65716b; font-size:13px; line-height:1.8; }
+.notice { color:#6b5b32; background:#fff9e9; }
+footer {
+  text-align:center;
+  background:var(--green);
+  color:white;
+  padding:22px;
+  line-height:2;
+}
+</style>
 </head>
 <body>
-  <header>
-    <p>المملكة العربية السعودية</p>
-    <p>الإدارة العامة للتعليم بمكة المكرمة</p>
-    <h2>الابتدائية الثالثة</h2>
-    <h1>خطتنا تُقاس بأثرها</h1>
-    <p>من التخطيط إلى التنفيذ… ومن الإنجاز إلى الأثر</p>
-    <p>الخطة التشغيلية 1448هـ</p>
-  </header>
+<header>
+  <h2>المملكة العربية السعودية</h2>
+  <p>الإدارة العامة للتعليم بمكة المكرمة</p>
+  <h2>الابتدائية الثالثة</h2>
+  <h1>خطتنا تُقاس بأثرها</h1>
+  <p>من التخطيط إلى التنفيذ... ومن الإنجاز إلى الأثر</p>
+  <p>الخطة التشغيلية 1448هـ</p>
+</header>
 
-  <main>
-    <section class="card" id="login">
-      <h2>تسجيل الدخول</h2>
-      <input id="email" type="email" placeholder="البريد الإلكتروني">
-      <input id="password" type="password" placeholder="كلمة المرور">
-      <button onclick="login()">دخول</button>
-      <p id="message"></p>
-    </section>
+<main>
+  <section class="panel">
+    <h2>لوحة متابعة الخطة التشغيلية</h2>
+    <p>مرحبًا بكم في منصة متابعة البرامج والمبادرات المدرسية.</p>
+    <p class="small">يمكن استعراض البرامج دون تسجيل دخول. عمليات التعديل والاعتماد غير متاحة في هذه الواجهة العامة.</p>
+  </section>
 
-    <section id="dashboard" class="hidden">
-      <div class="card">
-        <h2>لوحة متابعة الخطة التشغيلية</h2>
-        <p id="account"></p>
-        <button onclick="logout()">تسجيل الخروج</button>
-      </div>
-      <div class="card">
-        <h2>البرامج التشغيلية</h2>
-        <p id="count"></p>
-        <div id="programs"></div>
-      </div>
-    </section>
-  </main>
+  <section class="stats">
+    <div class="stat">البرامج المسجلة<strong id="total">—</strong></div>
+    <div class="stat">البرامج المعروضة<strong id="visible">—</strong></div>
+    <div class="stat">متوسط الإنجاز المعتمد<strong id="average">—</strong></div>
+  </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
-  <script>
-    const db = supabase.createClient(
-      "https://hhcnppuvkfybiztstcrd.supabase.co",
-      "sb_publishable__xLn8AhGeD1ejKK_ugFtcQ_Dyfi8T0T"
-    );
+  <section class="panel">
+    <h2>البرامج التشغيلية</h2>
+    <div class="controls">
+      <input id="search" placeholder="ابحثي عن برنامج أو مبادرة">
+      <select id="category">
+        <option value="">جميع المجالات</option>
+      </select>
+    </div>
+  </section>
 
-    async function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  <section id="programs" class="grid"></section>
 
-      const { data, error } = await db.auth.signInWithPassword({
-        email,
-        password
-      });
+  <section class="panel notice">
+    <strong>تنويه:</strong>
+    نسب الإنجاز لا تُعرض إلا عند توفر بيانات معتمدة ومصرّح بنشرها.
+    لا تعني نسبة الإنجاز غير المتاحة أن البرنامج لم يُنفذ.
+  </section>
+</main>
 
-      if (error) {
-        document.getElementById("message").textContent = error.message;
-        return;
-      }
+<footer>
+  <strong>الابتدائية الثالثة</strong>
+  <div>مديرة المدرسة: أ. معيضة بلقاسم الشهري</div>
+  <div>وكيلة الشؤون التعليمية: أ. نوال بن عفيف</div>
+  <div>خطتنا تُقاس بأثرها | 1448هـ</div>
+</footer>
 
-      await showDashboard(data.user);
-    }
+<script>
+const programs = [
+  {name:"أنا ملتزم",category:"الانضباط المدرسي"},
+  {name:"معًا لننضبط",category:"الانضباط المدرسي"},
+  {name:"بيئتي آمنة",category:"البيئة المدرسية"},
+  {name:"مبدعات العلوم والابتكار",category:"التعلم والابتكار"},
+  {name:"لغتي هويتي وقراري",category:"نواتج التعلم"},
+  {name:"علومنا في حياتنا",category:"نواتج التعلم"},
+  {name:"أسبوع الرياضيات الممتع",category:"نواتج التعلم"},
+  {name:"يوم القيم المدرسي",category:"القيم والسلوك"},
+  {name:"قيم نعيشها",category:"القيم والسلوك"},
+  {name:"فعالية مبتكرة في يوم التأسيس",category:"الهوية الوطنية"},
+  {name:"عرض تفاعلي عن الرموز الوطنية",category:"الهوية الوطنية"},
+  {name:"مجلس الطلاب",category:"المشاركة الطلابية"},
+  {name:"لقاء (احتياجي التدريبي)",category:"التطوير المهني"}
+];
 
-    async function showDashboard(user) {
-      document.getElementById("login").classList.add("hidden");
-      document.getElementById("dashboard").classList.remove("hidden");
-      document.getElementById("account").textContent = user.email;
+const search = document.getElementById("search");
+const category = document.getElementById("category");
+const container = document.getElementById("programs");
 
-      const { data, error } = await db
-        .from("school_programs")
-        .select("name,category")
-        .order("name");
+document.getElementById("total").textContent = programs.length;
+document.getElementById("average").textContent = "غير متاح";
 
-      if (error) {
-        document.getElementById("count").textContent = error.message;
-        return;
-      }
+const categories = [...new Set(programs.map(p => p.category))];
+categories.forEach(c => {
+  const option = document.createElement("option");
+  option.value = c;
+  option.textContent = c;
+  category.appendChild(option);
+});
 
-      document.getElementById("count").textContent =
-        "عدد البرامج: " + data.length;
+function render() {
+  const q = search.value.trim().toLowerCase();
+  const selected = category.value;
 
-      const container = document.getElementById("programs");
-      container.replaceChildren();
+  const filtered = programs.filter(p =>
+    (!selected || p.category === selected) &&
+    (p.name.toLowerCase().includes(q) ||
+     p.category.toLowerCase().includes(q))
+  );
 
-      data.forEach(program => {
-        const item = document.createElement("div");
-        item.className = "program";
+  document.getElementById("visible").textContent = filtered.length;
+  container.replaceChildren();
 
-        const name = document.createElement("strong");
-        name.textContent = program.name;
+  if (!filtered.length) {
+    const message = document.createElement("p");
+    message.textContent = "لا توجد برامج مطابقة للبحث.";
+    container.appendChild(message);
+    return;
+  }
 
-        const category = document.createElement("p");
-        category.textContent = program.category || "";
+  filtered.forEach(p => {
+    const card = document.createElement("article");
+    card.className = "program";
 
-        item.append(name, category);
-        container.appendChild(item);
-      });
-    }
+    const title = document.createElement("h3");
+    title.textContent = p.name;
 
-    async function logout() {
-      await db.auth.signOut();
-      location.reload();
-    }
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = p.category;
 
-    db.auth.getUser().then(({ data }) => {
-      if (data.user) showDashboard(data.user);
-    });
-  </script>
+    const description = document.createElement("p");
+    description.className = "small";
+    description.textContent = "برنامج ضمن الخطة التشغيلية للمدرسة.";
+
+    const progress = document.createElement("p");
+    progress.className = "small";
+    progress.textContent = "نسبة الإنجاز: غير متاحة للنشر";
+
+    card.append(title, tag, description, progress);
+    container.appendChild(card);
+  });
+}
+
+search.addEventListener("input", render);
+category.addEventListener("change", render);
+render();
+</script>
 </body>
 </html>
