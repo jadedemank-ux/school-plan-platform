@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>خطتنا تُقاس بأثرها</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f4f6f2;
+      color: #174b3b;
+    }
+    header {
+      background: #174b3b;
+      color: white;
+      padding: 36px 18px;
+      text-align: center;
+      border-bottom: 6px solid #c5a361;
+    }
+    main {
+      max-width: 850px;
+      margin: 25px auto;
+      padding: 16px;
+    }
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px #00000010;
+    }
+    input, button {
+      padding: 12px;
+      margin: 6px;
+      border-radius: 8px;
+      font: inherit;
+    }
+    button {
+      background: #174b3b;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .hidden { display: none; }
+    .program {
+      padding: 14px;
+      border-bottom: 1px solid #ddd;
+    }
+    #message { color: #a43d31; }
+  </style>
+</head>
+<body>
+  <header>
+    <p>المملكة العربية السعودية</p>
+    <p>الإدارة العامة للتعليم بمكة المكرمة</p>
+    <h2>الابتدائية الثالثة</h2>
+    <h1>خطتنا تُقاس بأثرها</h1>
+    <p>من التخطيط إلى التنفيذ… ومن الإنجاز إلى الأثر</p>
+    <p>الخطة التشغيلية 1448هـ</p>
+  </header>
+
+  <main>
+    <section class="card" id="login">
+      <h2>تسجيل الدخول</h2>
+      <input id="email" type="email" placeholder="البريد الإلكتروني">
+      <input id="password" type="password" placeholder="كلمة المرور">
+      <button onclick="login()">دخول</button>
+      <p id="message"></p>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <div class="card">
+        <h2>لوحة متابعة الخطة التشغيلية</h2>
+        <p id="account"></p>
+        <button onclick="logout()">تسجيل الخروج</button>
+      </div>
+      <div class="card">
+        <h2>البرامج التشغيلية</h2>
+        <p id="count"></p>
+        <div id="programs"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+  <script>
+    const db = supabase.createClient(
+      "https://hhcnppuvkfybiztstcrd.supabase.co",
+      "sb_publishable__xLn8AhGeD1ejKK_ugFtcQ_Dyfi8T0T"
+    );
+
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        document.getElementById("message").textContent = error.message;
+        return;
+      }
+
+      await showDashboard(data.user);
+    }
+
+    async function showDashboard(user) {
+      document.getElementById("login").classList.add("hidden");
+      document.getElementById("dashboard").classList.remove("hidden");
+      document.getElementById("account").textContent = user.email;
+
+      const { data, error } = await db
+        .from("school_programs")
+        .select("name,category")
+        .order("name");
+
+      if (error) {
+        document.getElementById("count").textContent = error.message;
+        return;
+      }
+
+      document.getElementById("count").textContent =
+        "عدد البرامج: " + data.length;
+
+      const container = document.getElementById("programs");
+      container.replaceChildren();
+
+      data.forEach(program => {
+        const item = document.createElement("div");
+        item.className = "program";
+
+        const name = document.createElement("strong");
+        name.textContent = program.name;
+
+        const category = document.createElement("p");
+        category.textContent = program.category || "";
+
+        item.append(name, category);
+        container.appendChild(item);
+      });
+    }
+
+    async function logout() {
+      await db.auth.signOut();
+      location.reload();
+    }
+
+    db.auth.getUser().then(({ data }) => {
+      if (data.user) showDashboard(data.user);
+    });
+  </script>
+</body>
+</html>
